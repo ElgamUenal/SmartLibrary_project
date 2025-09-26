@@ -1,0 +1,47 @@
+
+CREATE TABLE buecher (
+    id SERIAL PRIMARY KEY,
+    isbn VARCHAR(20),
+    anzahl INTEGER,
+    entlehnung TIMESTAMP,
+    verlag VARCHAR(100),
+    jahr TIMESTAMP,
+    titel VARCHAR(100),
+    status VARCHAR(100),
+    bild VARCHAR(100),
+    administrator VARCHAR(100),
+    sid INTEGER REFERENCES login(sid),
+    autor VARCHAR(100),
+    kid INTEGER REFERENCES kategorie(kid),
+    beschreibung VARCHAR(200)
+);
+CREATE TABLE login (
+    sid SERIAL PRIMARY KEY,
+    token VARCHAR(200)
+);
+
+CREATE TABLE kategorie (
+    kid SERIAL PRIMARY KEY,
+    name VARCHAR(40)
+);
+
+
+
+INSERT INTO buecher (
+    isbn, anzahl, entlehnung, verlag, jahr, titel, status, bild,
+    administrator, sid, autor, kid, beschreibung
+) VALUES (
+    '978-3-16-148410-0',         -- ISBN
+    5,                           -- Anzahl
+    '2025-09-26 13:30:00',       -- Entlehnung
+    'Testverlag',                -- Verlag
+    '2020-01-01 00:00:00',       -- Jahr
+    'Einführung in SQL',         -- Titel
+    'verfügbar',                 -- Status
+    'sql_buch_cover.jpg',        -- Bild
+    'admin1',                    -- Administrator
+    1,                           -- sid (Login-ID)
+    'Max Mustermann',            -- Autor
+    2,                           -- kid (Kategorie-ID, z. B. Deutsch)
+    'Ein praxisnahes Buch zur Einführung in SQL und Datenbanken.' -- Beschreibung
+);
