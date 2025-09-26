@@ -48,3 +48,5 @@ INSERT INTO buecher (
     2,                           -- kid (Kategorie-ID, z. B. Deutsch)
     'Ein praxisnahes Buch zur Einführung in SQL und Datenbanken.' -- Beschreibung
 );
+
+
