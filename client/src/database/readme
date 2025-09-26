@@ -25,6 +25,9 @@ CREATE TABLE kategorie (
     name VARCHAR(40)
 );
 
+INSERT INTO login (sid, token) VALUES
+(1, 'test-token-123');
+
 
 
 INSERT INTO buecher (
