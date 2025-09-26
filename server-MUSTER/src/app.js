@@ -6,7 +6,6 @@ import path from 'path';
 import debug from 'debug';
 
 import testRoute from './api/routes/test.js';
-import hotelRoutes from './api/routes/hotelRoutes.js';
 import smartLibrary from './api/routes/smartLibrary_Route.js';
 
 dotenv.config();
@@ -24,7 +23,6 @@ app.use(express.static(path.join(dirname, '/public')));
 app.use(express.json());
 
 app.use('/test', testRoute);
-app.use('/hotels', hotelRoutes);
 app.use('/library', smartLibrary);
 const PORT = process.env.PORT || 5000;
 

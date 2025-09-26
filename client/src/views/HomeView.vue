@@ -6,14 +6,54 @@ myStore.fetchdata();
 
 const columns = [
   {
-    name: "name",
+    name: "titel",
     required: true,
-    label: "Name",
+    label: "titel",
     align: "left",
-    field: 'name',
+    field: 'titel',
     format: (val) => `${val}`,
     sortable: true,
   },
+  {
+    name: "jahr",
+    required: true,
+    label: "jahr",
+    align: "left",
+    field: 'jahr',
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+
+  {
+    name: "verlag",
+    required: true,
+    label: "verlag",
+    align: "left",
+    field: 'verlag',
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+  {
+    name: "isbn",
+    required: true,
+    label: "isbn",
+    align: "left",
+    field: 'isbn',
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+  
+  {
+    name: "anzahl",
+    required: true,
+    label: "anzahl",
+    align: "left",
+    field: 'anzahl',
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+
+  
   
 ];
 </script>
