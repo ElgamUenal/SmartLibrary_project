@@ -1,7 +1,8 @@
 import express from 'express';
-import { gettest } from '../controller/smartLibrary_Controller.js';
+import { getbücher, deleteBuch } from '../controller/smartLibrary_Controller.js';
 
 const router = express.Router();
 
-router.get('/', gettest);
+router.get('/', getbücher);
+router.get('/:id', deleteBuch);
 export default router;
