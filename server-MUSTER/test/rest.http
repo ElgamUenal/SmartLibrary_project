@@ -9,8 +9,8 @@ DELETE http://localhost:3000/library/2
 ###
 
 Post http://localhost:3000/library/create
-
 Content-Type: application/json
+
 {
   "isbn": "978-3-16-148410-2",
   "anzahl": 5,

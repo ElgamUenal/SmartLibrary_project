@@ -23,7 +23,7 @@
         <q-tr :props="props">
           <q-td>
             <img
-              :src="`http://localhost:3000/${props.row.bild}`"
+              src="http://localhost:3000/images/apartment-hotel-painted-building.jpg"
               alt="Cover"
               style="height: 100px; border-radius: 6px"
             />
