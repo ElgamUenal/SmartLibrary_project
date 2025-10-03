@@ -57,3 +57,12 @@ export const addBuch = async (buch) => {
 
   return rows[0];
 };
+
+// Get werke
+export const getWerkeByBuchId = async (buchId) => {
+  const { rows } = await query(
+    'SELECT * FROM enthaltene_werke WHERE buch_id = $1',
+    [buchId],
+  );
+  return rows;
+};

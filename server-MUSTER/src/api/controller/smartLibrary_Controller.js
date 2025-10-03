@@ -17,7 +17,6 @@ export const deleteBuch = asyncHandler(async (req, res) => {
 
   res.status(200).json({ success: true, message: 'Buch gelöscht' });
 });
-
 // eslint-disable-next-line consistent-return
 export const addBuch = asyncHandler(async (req, res) => {
   console.log('Empfangene Daten:', req.body);
@@ -38,5 +37,23 @@ export const addBuch = asyncHandler(async (req, res) => {
     success: true,
     message: 'Buch erfolgreich hinzugefügt',
     buch: neuesBuch,
+  });
+});
+
+export const getWerkeByBuchId = asyncHandler(async (req, res) => {
+  const { buchId } = req.params;
+
+  const werke = await model.getWerkeByBuchId(buchId);
+
+  if (!werke || werke.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: 'Keine enthaltenen Werke gefunden',
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    werke,
   });
 });

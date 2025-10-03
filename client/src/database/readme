@@ -50,3 +50,21 @@ INSERT INTO buecher (
 );
 
 
+
+CREATE TABLE enthaltene_werke (
+    id SERIAL PRIMARY KEY,
+    buch_id INTEGER REFERENCES buecher(id),
+    titel VARCHAR(255),
+    autor VARCHAR(255),
+    werkart VARCHAR(100),
+    seitenzahl INTEGER,
+    bemerkung TEXT
+);
+
+INSERT INTO enthaltene_werke (
+  buch_id, titel, autor, werkart, seitenzahl, bemerkung
+) VALUES
+(22, 'Furcht und Elend des Dritten Reiches', 'Brecht, Bertolt', 'Theaterstück', 45, 'Teil von Spectaculum 4'),
+(22, 'Romulus der Große', 'Dürrenmatt, Friedrich', 'Theaterstück', 50, 'Teil von Spectaculum 4'),
+(22, 'Graf Öderland', 'Frisch, Max', 'Theaterstück', 42, 'Teil von Spectaculum 4'),
+(22, 'Die Polizei', 'Mrozek, Slawomir', 'Theaterstück', 38, 'Teil von Spectaculum 4');

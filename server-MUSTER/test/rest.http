@@ -28,3 +28,5 @@ Content-Type: application/json
   "beschreibung": "Ein Buch über Node.js"
 }
 
+####
+get http://localhost:3000/library/buecher/22/werke
