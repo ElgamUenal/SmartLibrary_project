@@ -69,3 +69,5 @@ INSERT INTO enthaltene_werke (
 (22, 'Graf Öderland', 'Frisch, Max', 'Theaterstück', 42, 'Teil von Spectaculum 4'),
 (22, 'Die Polizei', 'Mrozek, Slawomir', 'Theaterstück', 38, 'Teil von Spectaculum 4');
 
+
+
