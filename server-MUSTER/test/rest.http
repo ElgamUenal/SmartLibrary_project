@@ -8,22 +8,23 @@ Get http://localhost:3000/library
 DELETE http://localhost:3000/library/2
 ###
 
-Post http://localhost:3000/library/create
 
+POST http://localhost:3000/library/create
 Content-Type: application/json
+
 {
-  "isbn": "978-3-16-148410-2",
+  "isbn": "978-3-16-148410-0",
   "anzahl": 5,
-  "entlehnung": "2025-10-01 12:00:00",
-  "verlag": "Test Verlag",
-  "jahr": "2024-01-01 00:00:00",
-  "titel": "JavaScript Grundlagen",
+  "entlehnung": "2025-10-03T13:00:00",
+  "verlag": "Springer",
+  "jahr": 2022,
+  "titel": "Node.js für Einsteiger",
   "status": "verfügbar",
-  "bild": "js_cover.jpg",
-  "administrator": "admin1",
+  "bild": "cover.jpg",
+  "administrator": 1,
   "sid": 1,
   "autor": "Max Mustermann",
-  "kid": 2,
-  "beschreibung": "Ein Einsteigerbuch zu JavaScript."
+  "kid": 3,
+  "beschreibung": "Ein Buch über Node.js"
 }
 

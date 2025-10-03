@@ -6,6 +6,7 @@ export const getbücher = asyncHandler(async (req, res) => {
   res.status(200).json(await model.getbücher());
 });
 
+// eslint-disable-next-line consistent-return
 export const deleteBuch = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const success = await model.deleteBuch(id);
@@ -16,7 +17,14 @@ export const deleteBuch = asyncHandler(async (req, res) => {
 
   res.status(200).json({ success: true, message: 'Buch gelöscht' });
 });
+
+// eslint-disable-next-line consistent-return
 export const addBuch = asyncHandler(async (req, res) => {
+  console.log('Empfangene Daten:', req.body);
+  console.log('Headers:', req.headers);
+  console.log('Body-Type:', req.headers['content-type']);
+  console.log('Empfangene Daten:', req.body);
+
   const neuesBuch = await model.addBuch(req.body);
 
   if (!neuesBuch) {

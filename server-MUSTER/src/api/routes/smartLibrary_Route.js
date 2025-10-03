@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get('/', getbücher);
 router.delete('/delete/:id', deleteBuch);
-router.post('/create', addBuch);
+router.post('/create', addBuch); // <- direkt den Controller nehmen
+
 export default router;
