@@ -19,6 +19,11 @@ export const deleteBuch = asyncHandler(async (req, res) => {
 });
 // eslint-disable-next-line consistent-return
 export const addBuch = asyncHandler(async (req, res) => {
+  console.log('Empfangene Daten:', req.body);
+  console.log('Headers:', req.headers);
+  console.log('Body-Type:', req.headers['content-type']);
+  console.log('Empfangene Daten:', req.body);
+
   const neuesBuch = await model.addBuch(req.body);
 
   if (!neuesBuch) {
@@ -32,5 +37,23 @@ export const addBuch = asyncHandler(async (req, res) => {
     success: true,
     message: 'Buch erfolgreich hinzugefügt',
     buch: neuesBuch,
+  });
+});
+
+export const getWerkeByBuchId = asyncHandler(async (req, res) => {
+  const { buchId } = req.params;
+
+  const werke = await model.getWerkeByBuchId(buchId);
+
+  if (!werke || werke.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: 'Keine enthaltenen Werke gefunden',
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    werke,
   });
 });
