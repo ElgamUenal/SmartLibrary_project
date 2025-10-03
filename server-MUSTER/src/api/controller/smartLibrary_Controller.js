@@ -6,7 +6,6 @@ export const getbücher = asyncHandler(async (req, res) => {
   res.status(200).json(await model.getbücher());
 });
 
-
 export const deleteBuch = asyncHandler(async (req, res) => {
   const { id } = req.params;
   res.status(200).json(await model.deleteBuch(id));
