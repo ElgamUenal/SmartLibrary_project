@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import  axios from  'axios'
+import axios from 'axios';
 export const useMyStore = defineStore('myStore', () => {
   const message = ref('Viel Erfolg!');
   const daten = ref([]);
