@@ -1,11 +1,12 @@
 // ------ setup version -------
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import  axios from  'axios'
+import axios from 'axios';
 
 export const useMyStore = defineStore('myStore', () => {
   const message = ref('Viel Erfolg!');
   const daten = ref([]);
+  const werke = ref([]);
 
   async function fetchdata() {
     const res = await axios.get('http://localhost:3000/library');
@@ -34,9 +35,13 @@ export const useMyStore = defineStore('myStore', () => {
 
   async function deleBook(item) {
     await axios.delete(`http://localhost:3000/library/delete/${item.id}`);
-    daten.value = daten.value.filter(b=> b.id != item.id)
-
+    daten.value = daten.value.filter((b) => b.id != item.id);
   }
 
-  return { message, daten, fetchdata, addBook, deleBook };
+  async function fetchWerke(item) {
+    const result = await axios.get(`http://localhost:3000/library/buecher/${item.id}/werke`);
+    werke.value = result.data;
+  }
+
+  return { message, werke, daten, fetchdata, addBook, deleBook, fetchWerke };
 });
