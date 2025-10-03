@@ -40,6 +40,7 @@ export const addBuch = asyncHandler(async (req, res) => {
   });
 });
 
+// eslint-disable-next-line consistent-return
 export const getWerkeByBuchId = asyncHandler(async (req, res) => {
   const { buchId } = req.params;
 
