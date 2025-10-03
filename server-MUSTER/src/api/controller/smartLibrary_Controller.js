@@ -6,8 +6,29 @@ export const getbücher = asyncHandler(async (req, res) => {
   res.status(200).json(await model.getbücher());
 });
 
-
 export const deleteBuch = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  res.status(200).json(await model.deleteBuch(id));
+  const success = await model.deleteBuch(id);
+
+  if (!success) {
+    return res.status(404).json({ error: 'Buch nicht gefunden' });
+  }
+
+  res.status(200).json({ success: true, message: 'Buch gelöscht' });
+});
+export const addBuch = asyncHandler(async (req, res) => {
+  const neuesBuch = await model.addBuch(req.body);
+
+  if (!neuesBuch) {
+    return res.status(400).json({
+      success: false,
+      message: 'Buch konnte nicht hinzugefügt werden',
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    message: 'Buch erfolgreich hinzugefügt',
+    buch: neuesBuch,
+  });
 });
