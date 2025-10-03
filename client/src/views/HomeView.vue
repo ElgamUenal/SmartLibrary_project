@@ -11,19 +11,12 @@
     </div>
 
     <!-- Original Table View -->
-    <q-table
-      :rows="myStore.daten"
-      :columns="columns"
-      row-key="isbn"
-      flat
-      bordered
-      hide-header
-    >
+    <q-table :rows="myStore.daten" :columns="columns" row-key="isbn" flat bordered hide-header>
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td>
             <img
-              src="http://localhost:3000/images/apartment-hotel-painted-building.jpg"
+              :src="`http://localhost:3000/${props.row.bild}`"
               alt="Cover"
               style="height: 100px; border-radius: 6px"
             />
@@ -44,6 +37,17 @@
               :label="props.row.status"
               align="center"
               class="q-mt-sm"
+            />
+          </q-td>
+
+          <q-td>
+            <q-btn
+              color="negative"
+              icon="delete"
+              dense
+              round
+              size="sm"
+              @click="deleteRow(props.row)"
             />
           </q-td>
         </q-tr>
@@ -74,21 +78,15 @@
           <q-separator class="q-mb-md" />
 
           <!-- Book Form -->
-          <q-form @submit="addBook" class="q-gutter-md">
+          <q-form @submit.prevent="addBook" class="q-gutter-md">
             <q-input
               v-model="newBook.isbn"
               label="ISBN *"
               filled
-              :rules="[val => !!val || 'ISBN ist erforderlich']"
+              :rules="[(val) => !!val || 'ISBN ist erforderlich']"
             >
               <template v-slot:append>
-                <q-btn
-                  flat
-                  dense
-                  icon="search"
-                  @click="fetchBookInfo"
-                  :loading="fetchingInfo"
-                />
+                <q-btn flat dense icon="search" @click="fetchBookInfo" :loading="fetchingInfo" />
               </template>
             </q-input>
 
@@ -96,14 +94,14 @@
               v-model="newBook.titel"
               label="Titel *"
               filled
-              :rules="[val => !!val || 'Titel ist erforderlich']"
+              :rules="[(val) => !!val || 'Titel ist erforderlich']"
             />
 
             <q-input
               v-model="newBook.autor"
               label="Autor *"
               filled
-              :rules="[val => !!val || 'Autor ist erforderlich']"
+              :rules="[(val) => !!val || 'Autor ist erforderlich']"
             />
 
             <q-input
@@ -111,14 +109,14 @@
               label="Jahr *"
               type="number"
               filled
-              :rules="[val => !!val || 'Jahr ist erforderlich']"
+              :rules="[(val) => !!val || 'Jahr ist erforderlich']"
             />
 
             <q-input
               v-model="newBook.verlag"
               label="Verlag *"
               filled
-              :rules="[val => !!val || 'Verlag ist erforderlich']"
+              :rules="[(val) => !!val || 'Verlag ist erforderlich']"
             />
 
             <q-select
@@ -128,7 +126,7 @@
               filled
               emit-value
               map-options
-              :rules="[val => !!val || 'Kategorie ist erforderlich']"
+              :rules="[(val) => !!val || 'Kategorie ist erforderlich']"
             />
 
             <q-input
@@ -136,7 +134,7 @@
               label="Anzahl *"
               type="number"
               filled
-              :rules="[val => !!val || 'Anzahl ist erforderlich']"
+              :rules="[(val) => !!val || 'Anzahl ist erforderlich']"
             />
 
             <q-input
@@ -147,12 +145,7 @@
               rows="3"
             />
 
-            <q-file
-              v-model="newBook.bildFile"
-              label="Buchcover"
-              filled
-              accept="image/*"
-            >
+            <q-file v-model="newBook.bildFile" label="Buchcover" filled accept="image/*">
               <template v-slot:prepend>
                 <q-icon name="attach_file" />
               </template>
@@ -167,12 +160,7 @@
 
             <div class="row q-gutter-sm justify-end">
               <q-btn label="Abbrechen" color="grey" flat v-close-popup />
-              <q-btn
-                label="Buch hinzufuegen"
-                type="submit"
-                color="primary"
-                :loading="adding"
-              />
+              <q-btn label="Buch hinzufuegen" type="submit" color="primary" :loading="adding" />
             </div>
           </q-form>
         </q-card-section>
@@ -195,6 +183,7 @@ const columns = [
   { name: 'bild', label: 'Bild', field: 'bild' },
   { name: 'details', label: 'Details', field: 'titel' },
   { name: 'status', label: 'Status', field: 'status' },
+  { name: 'actions', label: 'Aktionen', field: 'actions' },
 ];
 
 const showAddDialog = ref(false);
@@ -212,6 +201,23 @@ const categories = [
   { label: 'Netzwerktechnik', value: 8 },
 ];
 
+async function deleteRow(item) {
+  try {
+    await myStore.deleBook(item); // übergibt das ganze item
+    $q.notify({
+      type: 'positive',
+      message: 'Buch erfolgreich gelöscht!',
+      position: 'top',
+    });
+  } catch (error) {
+    $q.notify({
+      type: 'negative',
+      message: 'Fehler beim Löschen des Buches',
+      position: 'top',
+    });
+  }
+}
+
 const newBook = ref({
   isbn: '',
   titel: '',
@@ -222,7 +228,7 @@ const newBook = ref({
   anzahl: 1,
   beschreibung: '',
   bildFile: null,
-  status: 'verfuegbar'
+  status: 'verfuegbar',
 });
 
 function formatYear(date) {
@@ -233,15 +239,16 @@ function formatYear(date) {
 function scanISBN() {
   $q.dialog({
     title: 'ISBN Scanner',
-    message: 'Kamera-basiertes Scannen wuerde hier implementiert werden. Fuer jetzt bitte ISBN manuell eingeben.',
+    message:
+      'Kamera-basiertes Scannen wuerde hier implementiert werden. Fuer jetzt bitte ISBN manuell eingeben.',
     prompt: {
       model: '',
       type: 'text',
-      label: 'ISBN'
+      label: 'ISBN',
     },
     cancel: true,
-    persistent: false
-  }).onOk(isbn => {
+    persistent: false,
+  }).onOk((isbn) => {
     newBook.value.isbn = isbn;
     fetchBookInfo();
   });
@@ -249,14 +256,15 @@ function scanISBN() {
 
 async function fetchBookInfo() {
   fetchingInfo.value = true;
-  
+
   try {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     $q.notify({
       type: 'info',
-      message: 'In einer echten Anwendung wuerden hier Buchdaten von einer ISBN-API geladen werden.',
-      position: 'top'
+      message:
+        'In einer echten Anwendung wuerden hier Buchdaten von einer ISBN-API geladen werden.',
+      position: 'top',
     });
   } finally {
     fetchingInfo.value = false;
@@ -265,16 +273,16 @@ async function fetchBookInfo() {
 
 async function addBook() {
   adding.value = true;
-  
+
   try {
     await myStore.addBook(newBook.value);
-    
+
     $q.notify({
       type: 'positive',
       message: 'Buch erfolgreich hinzugefuegt!',
-      position: 'top'
+      position: 'top',
     });
-    
+
     newBook.value = {
       isbn: '',
       titel: '',
@@ -285,16 +293,15 @@ async function addBook() {
       anzahl: 1,
       beschreibung: '',
       bildFile: null,
-      status: 'verfuegbar'
+      status: 'verfuegbar',
     };
-    
+
     showAddDialog.value = false;
-    
   } catch (error) {
     $q.notify({
       type: 'negative',
       message: 'Fehler beim Hinzufuegen des Buches',
-      position: 'top'
+      position: 'top',
     });
   } finally {
     adding.value = false;
