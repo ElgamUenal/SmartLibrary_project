@@ -60,7 +60,7 @@ CREATE TABLE enthaltene_werke (
     seitenzahl INTEGER,
     bemerkung TEXT
 );
-dinaddd
+dinaddd asefa 
 INSERT INTO enthaltene_werke (
   buch_id, titel, autor, werkart, seitenzahl, bemerkung
 ) VALUES
